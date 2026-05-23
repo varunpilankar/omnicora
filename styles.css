@@ -1,0 +1,531 @@
+/* =============================================================
+   OMNICORA — Stylesheet (Omni-Light)
+   Version: 1.0
+   Palette: White background · Navy accent · Syne + Cormorant Garamond
+   Scale:   Anchored to logo 1.05rem — matches NIAA Systems v1.4
+   ============================================================= */
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Design tokens ──────────────────────────────────────────── */
+:root {
+  /* Backgrounds — same white system as NIAA Systems */
+  --white:        #E6EFF7;       /* navy light background */
+  --card:         #FDFCFA;      /* warm white — card surfaces */
+  --card-hover:   #A8C4E0;      /* off-white — hover state */
+
+  /* Ink — same as NIAA Systems */
+  --ink:          #1A1A18;
+  --ink-body:     #3D3D3A;      /* body paragraphs */
+  --muted:        #8A8A84;
+  --faint:        #B0AFA9;
+  --hairline:     #C6C5BF;
+
+  /* OMNICORA brand colours (from kit) */
+  --navy:         #0D2645;      /* primary — pillar bar, tags, cert dots, button */
+  --navy-mid:     #1A3A5C;      /* hover accent */
+  --navy-tint:    #A8C4E0;      /* light accent — tag borders, grid line tint */
+  --navy-lt:      #E6EFF7;      /* very light — tag chip background */
+
+  /* Typography */
+  --syne: 'Syne', sans-serif;
+  --cg:   'Cormorant Garamond', serif;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--syne);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── Background grid — same 72px pattern, 0.20 opacity ─────── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0;
+  z-index: 0;
+  animation: gridIn 1.6s ease forwards 0.2s;
+  pointer-events: none;
+}
+
+@keyframes gridIn {
+  to { opacity: 0.20; }
+}
+
+/* Radial glow — navy tinted, top-right */
+.dot-accent {
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(13,38,69,0.04) 0%, transparent 68%);
+  top: -140px;
+  right: -120px;
+  z-index: 0;
+  pointer-events: none;
+  animation: floatDot 11s ease-in-out infinite;
+}
+
+@keyframes floatDot {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(-24px, 24px); }
+}
+
+/* ── Layout container ───────────────────────────────────────── */
+.container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 3.5rem;
+}
+
+/* ── Entry animations — identical timing to NIAA Systems ────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+header       { opacity: 0; animation: fadeUp 0.9s ease forwards 0.15s; }
+.eyebrow     { opacity: 0; animation: fadeUp 0.9s ease forwards 0.28s; }
+.headline    { opacity: 0; animation: fadeUp 0.9s ease forwards 0.40s; }
+.hero-body   { opacity: 0; animation: fadeUp 0.9s ease forwards 0.52s; }
+.services    { opacity: 0; animation: fadeUp 0.9s ease forwards 0.64s; }
+.cert-strip  { opacity: 0; animation: fadeUp 0.9s ease forwards 0.74s; }
+.notify      { opacity: 0; animation: fadeUp 0.9s ease forwards 0.84s; }
+footer       { opacity: 0; animation: fadeUp 0.9s ease forwards 0.94s; }
+
+/* ── Header ─────────────────────────────────────────────────── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.25rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* Wordmark — OMNI bold ink / CORA regular muted (omni-light pattern) */
+.logo {
+  font-family: var(--syne);
+  font-size: 1.05rem;           /* anchors the whole scale */
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.logo span {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* In Development badge */
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--syne);
+  font-size: 0.75rem;           /* 12px — scaled with logo */
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--hairline);
+  padding: 0.3rem 0.8rem 0.3rem 0.55rem;
+  border-radius: 100px;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2A9D5C;          /* brand-neutral green — same as NIAA Systems */
+  flex-shrink: 0;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.7); }
+}
+
+/* ── Main content ───────────────────────────────────────────── */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 3.5rem 0 3.5rem;    /* balanced top/bottom — matches NIAA Systems */
+}
+
+/* ── Eyebrow ────────────────────────────────────────────────── */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--syne);
+  font-size: 0.8125rem;         /* 13px — scaled with logo */
+  font-weight: 700;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;          /* tight to headline — same as NIAA Systems */
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ── Headline ───────────────────────────────────────────────── */
+.headline {
+  font-family: var(--cg);
+  font-size: clamp(3.5rem, 8vw, 6.75rem);
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1.75rem;
+}
+
+/* Italic word in navy — omni-light accent */
+.headline em {
+  font-style: italic;
+  color: var(--navy-mid);
+}
+
+/* ── Hero body ──────────────────────────────────────────────── */
+.hero-body {
+  max-width: 560px;
+  font-family: var(--syne);
+  font-size: 1rem;              /* 16px */
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--ink-body);
+  margin-bottom: 3.5rem;
+}
+
+/* ── Service cards ──────────────────────────────────────────── */
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  margin-bottom: 2rem;
+}
+
+.service-card {
+  background: var(--white);
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s ease;
+}
+.service-card:hover { background: var(--card-hover); }
+
+/* Tag chip — navy on navy-lt — omni-light brand treatment */
+.service-tag {
+  font-family: var(--syne);
+  font-size: 0.75rem;           /* 12px — scaled with logo */
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.26rem 0.65rem;
+  display: inline-flex;
+  background: var(--navy-);
+  color: var(--navy);
+  border: 1px solid rgba(13,38,69,0.12);
+  margin-bottom: 1.1rem;
+  align-self: flex-start;
+}
+
+.service-name {
+  font-family: var(--syne);
+  font-size: 1.0625rem;         /* 17px — scaled with logo */
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+
+.service-desc {
+  font-family: var(--syne);
+  font-size: 1rem;              /* 16px — scaled with logo */
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--ink-body);
+  flex: 1;
+}
+
+.service-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+  font-family: var(--syne);
+  font-size: 0.75rem;           /* 12px — scaled with logo */
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.service-cta svg {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s ease;
+}
+
+.service-card:hover .service-cta     { color: var(--navy); }
+.service-card:hover .service-cta svg { transform: translateX(3px); }
+
+/* ── Cert strip ─────────────────────────────────────────────── */
+.cert-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  margin-bottom: 3.5rem;
+}
+
+.cert-item {
+  background: var(--white);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cert-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--navy);
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.cert-label {
+  font-family: var(--syne);
+  font-size: 0.9375rem;         /* 15px — scaled with logo */
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--ink-body);
+  line-height: 1.4;
+}
+
+/* ── Notify ─────────────────────────────────────────────────── */
+.notify {
+  margin-bottom: 5rem;
+}
+
+.notify-label {
+  font-family: var(--syne);
+  font-size: 0.8125rem;         /* 13px — scaled with logo */
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+
+.notify-row {
+  display: flex;
+  max-width: 440px;
+  border: 1px solid var(--hairline);
+  transition: border-color 0.2s ease;
+}
+.notify-row:focus-within { border-color: var(--navy); }
+
+.notify-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 0.875rem 1.1rem;
+  font-family: var(--syne);
+  font-size: 1.0625rem;         /* 17px — scaled with logo */
+  font-weight: 400;
+  background: transparent;
+  color: var(--ink);
+  transition: background 0.2s ease;
+}
+.notify-input::placeholder { color: var(--faint); }
+.notify-input:focus        { background: var(--card); }
+
+/* Button: navy bg, white text — high contrast, matches brand */
+.notify-btn {
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  padding: 0.875rem 1.5rem;
+  font-family: var(--syne);
+  font-size: 0.8125rem;         /* 13px — scaled with logo */
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+.notify-btn:hover { background: var(--navy-mid); }
+
+.notify-sub {
+  font-family: var(--syne);
+  font-size: 0.875rem;          /* 14px — scaled with logo */
+  color: var(--faint);
+  margin-top: 0.65rem;
+  letter-spacing: 0.04em;
+}
+
+.notify-success {
+  display: none;
+  font-family: var(--syne);
+  font-size: 1.0625rem;         /* matches input */
+  font-weight: 500;
+  color: var(--ink);
+  padding: 0.875rem 0;
+  letter-spacing: 0.03em;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--hairline);
+  padding: 1.75rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.footer-copy {
+  font-family: var(--syne);
+  font-size: 0.9375rem;         /* 15px — scaled with logo */
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.footer-parent {
+  font-family: var(--syne);
+  font-size: 0.875rem;          /* 14px */
+  color: var(--faint);
+  letter-spacing: 0.05em;
+}
+.footer-parent a {
+  color: var(--faint);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.footer-parent a:hover { color: var(--navy); }
+
+.footer-links {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.footer-links a {
+  font-family: var(--syne);
+  font-size: 0.875rem;          /* 14px — scaled with logo */
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
+}
+.footer-links a:hover { color: var(--navy); }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+
+/* ── Large tablet (≤900px) — 2-col service cards ── */
+@media (max-width: 900px) {
+  .services { grid-template-columns: 1fr 1fr; }
+
+  /* Empty card fix — 3 cards in 2 columns:
+     last card spans both columns when alone in its row */
+  .services .service-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .cert-strip { grid-template-columns: 1fr 1fr; }
+
+  /* Cert strip last-child fix — same logic */
+  .cert-strip .cert-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── Mobile (≤680px) — single column ── */
+@media (max-width: 680px) {
+  .container { padding: 0 1.25rem; }
+
+  main { padding: 3.5rem 0 2.5rem; }
+
+  .services    { grid-template-columns: 1fr; }
+  .cert-strip  { grid-template-columns: 1fr; }
+
+  /* Reset span overrides — not needed at 1 column */
+  .services .service-card:last-child:nth-child(odd),
+  .cert-strip .cert-item:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
+  .service-card { padding: 1.5rem 1.25rem; }
+
+  .headline { font-size: clamp(2.8rem, 12vw, 4.2rem); }
+
+  .hero-body { font-size: 0.9375rem; }
+
+  footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .notify-row { max-width: 100%; }
+}
+
+/* ── Small mobile (≤440px) ── */
+@media (max-width: 440px) {
+  .header-badge { display: none; }
+}
