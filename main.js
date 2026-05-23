@@ -34,7 +34,7 @@
     fetch("https://script.google.com/macros/s/AKfycbwaqSyQW8fC_9fcxrcNvkhnCAt1O8lfuFBl1MU7EYe4EVeOxsNEeE6nRClkvBSTXoaz/exec", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `email=${encodeURIComponent(input.value)}&source=OPC&honeypot=`
+      body: `email=${encodeURIComponent(input.value)}&source=OMC&honeypot=`
     }).catch(function (err) {
       console.warn("Could not save email", err);
     });
